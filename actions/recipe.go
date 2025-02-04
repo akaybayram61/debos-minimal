@@ -127,10 +127,6 @@ func (y *YamlAction) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		y.Action = NewAptAction()
 	case "pacman":
 		y.Action = &PacmanAction{}
-	case "ostree-commit":
-		y.Action = &OstreeCommitAction{}
-	case "ostree-deploy":
-		y.Action = NewOstreeDeployAction()
 	case "overlay":
 		y.Action = &OverlayAction{}
 	case "image-partition":

@@ -11,7 +11,6 @@ require (
 	github.com/go-task/slim-sprig/v3 v3.0.0
 	github.com/google/uuid v1.6.0
 	github.com/jessevdk/go-flags v1.6.1
-	github.com/sjoerdsimons/ostree-go v0.0.0-20201014091107-8fae757256f8
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
 )
