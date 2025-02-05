@@ -7,17 +7,17 @@ build, and optionally (but by-default) mounted at boot in the final system. The
 mountpoints are sorted on their position in the filesystem hierarchy so the
 order in the recipe does not matter.
 
- # Yaml syntax:
- - action: image-partition
-   imagename: image_name
-   imagesize: size
-   partitiontype: gpt
-   diskid: string
-   gpt_gap: offset
-   partitions:
-     <list of partitions>
-   mountpoints:
-     <list of mount points>
+	# Yaml syntax:
+	- action: image-partition
+	  imagename: image_name
+	  imagesize: size
+	  partitiontype: gpt
+	  diskid: string
+	  gpt_gap: offset
+	  partitions:
+	    <list of partitions>
+	  mountpoints:
+	    <list of mount points>
 
 Mandatory properties:
 
@@ -45,19 +45,19 @@ should be in GUID format (e.g.: '00002222-4444-6666-AAAA-BBBBCCCCFFFF' where eac
 character is an hexadecimal digit). For 'msdos' partition table, 'diskid' should be
 a 32 bits hexadecimal number (e.g. '1234ABCD' without any dash separator).
 
-   # Yaml syntax for partitions:
-   partitions:
-     - name: partition name
-	   partlabel: partition label
-	   fs: filesystem
-	   start: offset
-	   end: offset
-	   features: list of filesystem features
-	   extendedoptions: list of filesystem extended options
-	   flags: list of flags
-	   fsck: bool
-	   fsuuid: string
-	   partuuid: string
+	   # Yaml syntax for partitions:
+	   partitions:
+	     - name: partition name
+		   partlabel: partition label
+		   fs: filesystem
+		   start: offset
+		   end: offset
+		   features: list of filesystem features
+		   extendedoptions: list of filesystem extended options
+		   flags: list of flags
+		   fsck: bool
+		   fsuuid: string
+		   partuuid: string
 
 Mandatory properties:
 
@@ -110,12 +110,12 @@ and data.
 - extendedoptions -- list of additional filesystem extended options which need
 to be enabled for the partition.
 
-   # Yaml syntax for mount points:
-   mountpoints:
-     - mountpoint: path
-	   partition: partition label
-	   options: list of options
-	   buildtime: bool
+	   # Yaml syntax for mount points:
+	   mountpoints:
+	     - mountpoint: path
+		   partition: partition label
+		   options: list of options
+		   buildtime: bool
 
 Mandatory properties:
 
@@ -136,27 +136,27 @@ to define a `mountpoint` path which is temporary and unique for the image,
 for example: `/mnt/temporary_mount`.
 Defaults to false.
 
- # Layout example for Raspberry PI 3:
- - action: image-partition
-   imagename: "debian-rpi3.img"
-   imagesize: 1GB
-   partitiontype: msdos
-   mountpoints:
-     - mountpoint: /
-       partition: root
-     - mountpoint: /boot/firmware
-       partition: firmware
-       options: [ x-systemd.automount ]
-   partitions:
-     - name: firmware
-       fs: vfat
-       start: 0%
-       end: 64MB
-     - name: root
-       fs: ext4
-       start: 64MB
-       end: 100%
-       flags: [ boot ]
+	# Layout example for Raspberry PI 3:
+	- action: image-partition
+	  imagename: "debian-rpi3.img"
+	  imagesize: 1GB
+	  partitiontype: msdos
+	  mountpoints:
+	    - mountpoint: /
+	      partition: root
+	    - mountpoint: /boot/firmware
+	      partition: firmware
+	      options: [ x-systemd.automount ]
+	  partitions:
+	    - name: firmware
+	      fs: vfat
+	      start: 0%
+	      end: 64MB
+	    - name: root
+	      fs: ext4
+	      start: 64MB
+	      end: 100%
+	      flags: [ boot ]
 */
 package actions
 
@@ -164,20 +164,21 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/docker/go-units"
-	"github.com/go-debos/fakemachine"
-	"github.com/google/uuid"
-	"github.com/freddierice/go-losetup/v2"
 	"log"
 	"os"
 	"os/exec"
 	"path"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"syscall"
 	"time"
-	"regexp"
+
+	"github.com/docker/go-units"
+	"github.com/freddierice/go-losetup/v2"
+	"github.com/go-debos/fakemachine"
+	"github.com/google/uuid"
 
 	"github.com/akaybayram61/debos-minimal"
 )
@@ -273,10 +274,10 @@ func (i *ImagePartitionAction) generateFSTab(context *debos.DebosContext) error 
 
 		fsType := m.part.FS
 		switch m.part.FS {
-			case "fat", "fat12", "fat16", "fat32", "msdos":
-				fsType = "vfat"
-			default:
-				break
+		case "fat", "fat12", "fat16", "fat32", "msdos":
+			fsType = "vfat"
+		default:
+			break
 		}
 
 		context.ImageFSTab.WriteString(fmt.Sprintf("UUID=%s\t%s\t%s\t%s\t0\t%d\n",
@@ -365,9 +366,9 @@ func (i ImagePartitionAction) formatPartition(p *Partition, context debos.DebosC
 			/* let mkfs.vfat autodetermine FAT type */
 			break
 		}
-		
+
 		if len(p.ExtendedOptions) > 0 {
-			cmdline = append(cmdline, strings.Join(p.ExtendedOptions, " "))
+			cmdline = append(cmdline, p.ExtendedOptions...)
 		}
 
 		if len(p.FSUUID) > 0 {
@@ -605,10 +606,10 @@ func (i ImagePartitionAction) Run(context *debos.DebosContext) error {
 		mntB := i.Mountpoints[b].Mountpoint
 
 		// root should always be mounted first
-		if (mntA == "/") {
+		if mntA == "/" {
 			return true
 		}
-		if (mntB == "/") {
+		if mntB == "/" {
 			return false
 		}
 
@@ -627,10 +628,10 @@ func (i ImagePartitionAction) Run(context *debos.DebosContext) error {
 		os.MkdirAll(mntpath, 0755)
 		fsType := m.part.FS
 		switch m.part.FS {
-			case "fat", "fat12", "fat16", "fat32", "msdos":
-				fsType = "vfat"
-			default:
-				break
+		case "fat", "fat12", "fat16", "fat32", "msdos":
+			fsType = "vfat"
+		default:
+			break
 		}
 		err = syscall.Mount(dev, mntpath, fsType, 0, "")
 		if err != nil {
