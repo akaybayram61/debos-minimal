@@ -37,7 +37,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/go-debos/debos"
+	"github.com/akaybayram61/debos-minimal"
 )
 
 type FilesystemDeployAction struct {

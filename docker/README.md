@@ -1,6 +1,6 @@
 # debos
 
-Docker container for ['debos' tool](https://github.com/go-debos/debos).
+Docker container for ['debos' tool](https://github.com/akaybayram61/debos-minimal).
 
 ## Installation
 ```

@@ -34,7 +34,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"github.com/go-debos/debos"
+	"github.com/akaybayram61/debos-minimal"
 	"github.com/go-debos/fakemachine"
 )
 

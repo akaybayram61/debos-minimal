@@ -28,7 +28,7 @@ import (
 	"strings"
 	"os/exec"
 
-	"github.com/go-debos/debos"
+	"github.com/akaybayram61/debos-minimal"
 )
 
 var tarOpts = map[string]string{

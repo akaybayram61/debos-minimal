@@ -58,7 +58,7 @@ import (
 	"strings"
 	"runtime"
 
-	"github.com/go-debos/debos"
+	"github.com/akaybayram61/debos-minimal"
 	"github.com/go-debos/fakemachine"
 )
 
@@ -226,7 +226,7 @@ func (d *DebootstrapAction) Run(context *debos.DebosContext) error {
 		cmdline = append(cmdline, fmt.Sprintf("--variant=%s", d.Variant))
 	}
 
-	// workaround for https://github.com/go-debos/debos/issues/361
+	// workaround for https://github.com/akaybayram61/debos-minimal/issues/361
 	if d.isLikelyOldSuite() {
 		log.Println("excluding usr-is-merged as package is not in suite")
 		cmdline = append(cmdline, "--exclude=usr-is-merged")

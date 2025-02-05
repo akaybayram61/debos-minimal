@@ -179,7 +179,7 @@ import (
 	"time"
 	"regexp"
 
-	"github.com/go-debos/debos"
+	"github.com/akaybayram61/debos-minimal"
 )
 
 type Partition struct {

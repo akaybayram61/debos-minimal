@@ -8,5 +8,5 @@ services:
       target: builder
     image:
       debos-builder
-    working_dir: /usr/local/go/src/github.com/go-debos/debos
+    working_dir: /usr/local/go/src/github.com/akaybayram61/debos-minimal
     command: go test -v ./...

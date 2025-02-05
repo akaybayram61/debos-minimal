@@ -97,7 +97,7 @@ run: allows to run a command or script in the filesystem or in the host
 unpack: unpack files from archive in the filesystem
 .PP
 A full syntax description of all the debos actions can be found at:
-https://godoc.org/github.com/go-debos/debos/actions
+https://godoc.org/github.com/akaybayram61/debos-minimal/actions
 .SH INSTALLATION (DOCKER CONTAINER)
 .PP
 An official debos container is available:
@@ -109,7 +109,7 @@ docker pull godebos/debos
 .fi
 .PP
 See
-docker/README.md (https://github.com/go-debos/debos/blob/master/docker/README.md)
+docker/README.md (https://github.com/akaybayram61/debos-minimal/blob/master/docker/README.md)
 for usage.
 .SH INSTALLATION FROM SOURCE (UNDER DEBIAN)
 .IP
@@ -118,7 +118,7 @@ for usage.
 sudo apt install golang git libglib2.0-dev libostree-dev qemu-system-x86 \[rs]
      qemu-user-static debootstrap systemd-container
 export GOPATH=/opt/src/gocode # or whatever suits your needs
-go install -v github.com/go-debos/debos/cmd/debos\[at]latest
+go install -v github.com/akaybayram61/debos-minimal/cmd/debos\[at]latest
 /opt/src/gocode/bin/debos --help
 \f[R]
 .fi
@@ -177,7 +177,7 @@ debos -t image:\[dq]debian-arm64.tgz\[dq] example.yaml
 .PP
 Example recipes are collected in a separate repository:
 .PP
-https://github.com/go-debos/debos-recipes
+https://github.com/akaybayram61/debos-minimal-recipes
 .SH ENVIRONMENT VARIABLES
 .PP
 debos reads a predefined list of environment variables from the host and
@@ -256,7 +256,7 @@ Using \f[V]--disable-fakemachine\f[R] is slightly faster than
 \f[V]kvm\f[R], but requires root permissions.
 .PP
 Benchmark times for running
-pine-a64-plus/debian.yaml (https://github.com/go-debos/debos-recipes/blob/9a25b4be6c9136f4a27e542f39ab7e419fc852c9/pine-a64-plus/debian.yaml)
+pine-a64-plus/debian.yaml (https://github.com/akaybayram61/debos-minimal-recipes/blob/9a25b4be6c9136f4a27e542f39ab7e419fc852c9/pine-a64-plus/debian.yaml)
 on an Intel Pentium G4560T with SSD:
 .PP
 .TS
