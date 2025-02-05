@@ -365,6 +365,10 @@ func (i ImagePartitionAction) formatPartition(p *Partition, context debos.DebosC
 			/* let mkfs.vfat autodetermine FAT type */
 			break
 		}
+		
+		if len(p.ExtendedOptions) > 0 {
+			cmdline = append(cmdline, strings.Join(p.ExtendedOptions, " "))
+		}
 
 		if len(p.FSUUID) > 0 {
 			cmdline = append(cmdline, "-i", p.FSUUID)
