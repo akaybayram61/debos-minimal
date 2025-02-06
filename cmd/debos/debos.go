@@ -8,14 +8,14 @@ import (
 	"path"
 	"strings"
 
-	"github.com/docker/go-units"
 	"github.com/akaybayram61/debos-minimal"
 	"github.com/akaybayram61/debos-minimal/actions"
+	"github.com/docker/go-units"
 	"github.com/go-debos/fakemachine"
 	"github.com/jessevdk/go-flags"
 )
 
-const Version = "1.1.4"
+const Version = "1.0.4"
 
 func checkError(context *debos.DebosContext, err error, a debos.Action, stage string) int {
 	if err == nil {
@@ -52,38 +52,37 @@ func warnLocalhost(variable string, value string) {
 		    Consider using an address that is valid on your network.`
 
 	if strings.Contains(value, "localhost") ||
-	   strings.Contains(value, "127.0.0.1") ||
-	   strings.Contains(value, "::1") {
+		strings.Contains(value, "127.0.0.1") ||
+		strings.Contains(value, "::1") {
 		log.Printf(message, variable)
 	}
 }
 
-
 func main() {
-	context := debos.DebosContext { &debos.CommonContext{}, "", "" }
+	context := debos.DebosContext{&debos.CommonContext{}, "", ""}
 	var options struct {
-		Backend       string            `short:"b" long:"fakemachine-backend" description:"Fakemachine backend to use" default:"auto"`
-		ArtifactDir   string            `long:"artifactdir" description:"Directory for packed archives and ostree repositories (default: current directory)"`
-		InternalImage string            `long:"internal-image" hidden:"true"`
-		TemplateVars  map[string]string `short:"t" long:"template-var" description:"Template variables (use -t VARIABLE:VALUE syntax)"`
-		DebugShell    bool              `long:"debug-shell" description:"Fall into interactive shell on error"`
-		Shell         string            `short:"s" long:"shell" description:"Redefine interactive shell binary (default: bash)" optionsl:"" default:"/bin/bash"`
-		ScratchSize   string            `long:"scratchsize" description:"Size of disk backed scratch space"`
-		CPUs          int               `short:"c" long:"cpus" description:"Number of CPUs to use for build VM (default: 2)"`
-		Memory        string            `short:"m" long:"memory" description:"Amount of memory for build VM (default: 2048MB)"`
-		ShowBoot      bool              `long:"show-boot" description:"Show boot/console messages from the fake machine"`
-		EnvironVars   map[string]string `short:"e" long:"environ-var" description:"Environment variables (use -e VARIABLE:VALUE syntax)"`
-		Verbose       bool              `short:"v" long:"verbose" description:"Verbose output"`
-		PrintRecipe   bool              `long:"print-recipe" description:"Print final recipe"`
-		DryRun        bool              `long:"dry-run" description:"Compose final recipe to build but without any real work started"`
-		DisableFakeMachine bool         `long:"disable-fakemachine" description:"Do not use fakemachine."`
-		Version       bool              `long:"version" description:"Print debos version"`
+		Backend            string            `short:"b" long:"fakemachine-backend" description:"Fakemachine backend to use" default:"auto"`
+		ArtifactDir        string            `long:"artifactdir" description:"Directory for packed archives and ostree repositories (default: current directory)"`
+		InternalImage      string            `long:"internal-image" hidden:"true"`
+		TemplateVars       map[string]string `short:"t" long:"template-var" description:"Template variables (use -t VARIABLE:VALUE syntax)"`
+		DebugShell         bool              `long:"debug-shell" description:"Fall into interactive shell on error"`
+		Shell              string            `short:"s" long:"shell" description:"Redefine interactive shell binary (default: bash)" optionsl:"" default:"/bin/bash"`
+		ScratchSize        string            `long:"scratchsize" description:"Size of disk backed scratch space"`
+		CPUs               int               `short:"c" long:"cpus" description:"Number of CPUs to use for build VM (default: 2)"`
+		Memory             string            `short:"m" long:"memory" description:"Amount of memory for build VM (default: 2048MB)"`
+		ShowBoot           bool              `long:"show-boot" description:"Show boot/console messages from the fake machine"`
+		EnvironVars        map[string]string `short:"e" long:"environ-var" description:"Environment variables (use -e VARIABLE:VALUE syntax)"`
+		Verbose            bool              `short:"v" long:"verbose" description:"Verbose output"`
+		PrintRecipe        bool              `long:"print-recipe" description:"Print final recipe"`
+		DryRun             bool              `long:"dry-run" description:"Compose final recipe to build but without any real work started"`
+		DisableFakeMachine bool              `long:"disable-fakemachine" description:"Do not use fakemachine."`
+		Version            bool              `long:"version" description:"Print debos version"`
 	}
 
 	// These are the environment variables that will be detected on the
 	// host and propagated to fakemachine. These are listed lower case, but
 	// they are detected and configured in both lower case and upper case.
-	var environ_vars = [...]string {
+	var environ_vars = [...]string{
 		"http_proxy",
 		"https_proxy",
 		"ftp_proxy",
@@ -114,7 +113,7 @@ func main() {
 	}
 
 	if options.Version {
-		fmt.Printf("debos v%s\n", Version)
+		fmt.Printf("debos-minimal v%s\n", Version)
 		return
 	}
 
