@@ -126,7 +126,7 @@ func (overlay *OverlayAction) Run(context *debos.DebosContext) error {
 		log.Printf("Overlay List: %s", overlay_sources)
 
 		for _, val := range overlay_sources {
-			sourcedir := path.Join(origin, val)
+			sourcedir := path.Join(getGlobPath(overlay.Source), val)
 
 			destination, err := debos.RestrictedPath(context.Rootdir, overlay.Destination)
 			if err != nil {
